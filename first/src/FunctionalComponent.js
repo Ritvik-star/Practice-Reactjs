@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { useState } from "react";
 
 const MyFunctionalComponent=()=>{
@@ -27,6 +27,14 @@ const MyFunctionalComponent=()=>{
     const showHide=()=>{
         setShow(!show)
     }
+
+    const checkCount= useCallback=()=>{ //will return memoized function and stop recreating
+        setCount((c)=>[...c])
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const memoizedResult = useMemo(()=> add(count, [count]));   //it will return a memoized value
+
 
     return(
         <div>
@@ -105,6 +113,69 @@ const FetchAPI=()=>{
     return(
         <div>
             {res.name}
+        </div>
+    )
+}
+
+
+
+
+
+//---------------------------
+//context api
+
+const myContext = createContext("");
+const First = () =>{
+    const [text, setText] = useState("");
+    return(
+        <myContext.Provider value={{text, setText}}>
+            <Second />
+        </myContext.Provider>
+    )
+
+}
+
+const Second =()=>{
+    const {text, setText} = useContext(myContext);
+    return(
+        <div>
+            {text}
+            <button onClick={setText("ram")}>set</button>
+        </div>
+    )
+}
+
+
+//------------------------------------
+//useReducer()
+
+const Update=()=>{
+    const initS = [
+        {age: 24},
+        {ag: 25}
+    ]
+
+
+    const reducer=(state, action)=>{
+        switch (action.type){
+            case "ONE" :
+                return {...initS.age, age: 30};
+
+            default :
+                return state;
+        }
+    }
+
+
+    const [state, dispatch] =   useReducer(reducer, initS);
+
+    function fun(){
+        dispatch({type: "ONE", age: 30})    
+    }
+
+    return(
+        <div>
+            {state.age}
         </div>
     )
 }

@@ -21,12 +21,27 @@ class MyClassComponent extends React.Component{
     componentDidMount = () => {
         console.log("this will run after first run")
     }
+    shouldComponentUpdate=()=>{
 
+    }
+    componentDidUpdate=()=>{
+
+    }
+getSnapshotBeforeUpdate=()=>{
+    
+}
+    show(){
+        console.log(this.state.age);
+    }
+    sub=()=>{
+
+    }
     render(){
         return(
             <React.Fragment>
                 <p>Hey this is class Component</p>
                 <button onClick={this.add}>add</button>
+                <button onClick={this.show.bind(this)}>show</button>
             </React.Fragment>
         )
     }

@@ -8,7 +8,7 @@ function genRandomInt(max){
 
 export default function Header(){
 
-    const description = reactDescriptions[genRandomInt(2)];
+    const description = reactDescriptions[genRandomInt(0)];
   
     return(
       <header>
@@ -19,8 +19,8 @@ export default function Header(){
           {/* here we are doing dynamically rendering of image */}
           <h1>React Essentials</h1>
           <p>
-            {description}
-            Fundamental React concepts you will need for almost any app you are
+            {description}{" "}
+            React concepts you will need for almost any app you are
             going to build!
           </p>
         </header>

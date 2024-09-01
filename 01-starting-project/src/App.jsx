@@ -3,133 +3,63 @@
 //since image was not named in its original file by default so we could import it without {}
 //but if something which is alreadt by default named inside file and we are import it
 //then use {}...e.g...
-import { CORE_CONCEPTS } from "./data";
+// import { CORE_CONCEPTS } from "./data";
+
 import Header from "./components/Header";
-import CoreConcept from "./components/CoreConcept";
-import TabButton from "./components/TabButton";
-import { useState } from "react";
-import { EXAMPLES } from "./data";
+import React, { Fragment, useState } from "react";
+import CoreConcepts from "./components/CoreConcepts";
+import Example from "./components/Examples";
 
 //react will execute, a component only once by default
 //to re-execute or re-render the component we should use 'state'
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState();
-
   // rule for hooks
   // Hooks can only be called inside React function components.
-  // Hooks can only be called at the top level of a component.
+  // Hooks should only be called at the top level of a component.
   // Hooks cannot be conditional.
 
-  function handleClick(selectedButton) {
-    setSelectedTopic(selectedButton);
-    console.log("click handled", selectedButton, selectedTopic); //we will get the old/previous value here right away
-    //because react will update the state and whenever this app component will rerender then only the updated state will be
-    //render
-  }
-
-  //for 3rd way of conditional rendering
-  let tabContent = <p>Please select a topic!</p>;
-  if (selectedTopic) {
-    tabContent = (
-      <div id="tab-content">
-        <h3>{EXAMPLES[selectedTopic].title}</h3>
-        <p>{EXAMPLES[selectedTopic].description}</p>
-        <pre>
-          <code>{EXAMPLES[selectedTopic].code}</code>
-        </pre>
-      </div>
-    );
-  }
-
   return (
-    <div>
-      <Header />
+    //here below we are using div as a wrapper element but div in itself an extra element in this case in dom
+    <>
+      {/* // <div>    */}
+      {/* we can use Fragment by importing from react and then can use it as a wrapper element.e.g.. */}
+      {/* <Fragment></Fragment> */}
+      {/* and that's how we will be able to remove an extra element from dom 
+      or we can just use, empty opening closing bracket's  */}
+      {/* <></>  */}
+      <Header />  
+      {/* since, we splitted the components like coreConcepts and examples so whenever any state will change inside them 
+      then those comps only will rerender, main App comps will not rerender and that's why header will not change */}
       <main>
-        <section id="core-concepts">
-          <h2>Core Concepts</h2>
-          {/* <ul>
-            <CoreConcept
-              image={CORE_CONCEPTS[0].image}
-              title={CORE_CONCEPTS[0].title}
-              description={CORE_CONCEPTS[0].description}
-            />
-            <CoreConcept {...CORE_CONCEPTS[1]} /> */}
-            {/* here we are spread op. (...) which will extract or pull out the properties or element of that array */}
-            {/* <CoreConcept {...CORE_CONCEPTS[2]} />
-            <CoreConcept {...CORE_CONCEPTS[3]} />
-          </ul> */}
-          {/* better way to do it dynamically as done below */}
-          <ul>
-            {CORE_CONCEPTS.map((CoreConcept) => {
-              <CoreConcept {...CoreConcept} key={CoreConcept.title} />
-            })}
-          </ul>
-        </section>
-        <section id="examples">
-          <h2>Examples</h2>
-          <menu>
-            {/* passing function as props */}
-            {/* <TabButton onClick={handleClick}>Components</TabButton> */}
-            {/* passing function as props with custom args*/}
-            <TabButton
-              isSelected={selectedTopic === "components"}
-              onClick={() => handleClick("components")}
-            >
-              Components
-            </TabButton>
-            <TabButton
-              isSelected={selectedTopic === "jsx"}
-              onClick={() => handleClick("jsx")}
-            >
-              JSX
-            </TabButton>
-            <TabButton
-              isSelected={selectedTopic === "props"}
-              onClick={() => handleClick("props")}
-            >
-              Props
-            </TabButton>
-            <TabButton
-              isSelected={selectedTopic === "state"}
-              onClick={() => handleClick("state")}
-            >
-              State
-            </TabButton>
-          </menu>
-
-          {/* conditional rendering based on state*/}
-
-          {/* way-1 ---> By using ternory operator */}
-          {/* {!selectedTopic ? (
-            <p>Please select a topic!</p>
-          ) : (
-            <div id="tab-content">
-              <h3>{EXAMPLES[selectedTopic].title}</h3>
-              <p>{EXAMPLES[selectedTopic].description}</p>
-              <pre>
-                <code>{EXAMPLES[selectedTopic].code}</code>
-              </pre>
-            </div>
-          )} */}
-
-          {/* way-2 ---> By using AND && operator*/}
-          {/* {!selectedTopic && <p>Please select a topic!</p>}
-          {selectedTopic && (
-            <div id="tab-content">
-              <h3>{EXAMPLES[selectedTopic].title}</h3>
-              <p>{EXAMPLES[selectedTopic].description}</p>
-              <pre>
-                <code>{EXAMPLES[selectedTopic].code}</code>
-              </pre>
-            </div>
-          )} */}
-
-          {/* way-3 ---> By using variables for jsx */}
-          {tabContent}
-        </section>
+        <CoreConcepts />
+        <Example />
       </main>
-    </div>
+      {/* </div> */}
+    </>
   );
 }
 
 export default App;
+
+// //if we don't use JSX then we don't need to build it or convert it into js using babel or wabpack
+
+// //with jsx
+//   <div id="content">
+//     <p>hello world</p>
+//   </div>
+// -->need to transform or convert
+// -->pretty simple and easy readble
+
+// //without jsx
+
+//   React.createElement(
+//     'div',
+//     {id: 'content'},
+//     React.createElement(
+//       'p',
+//       null,
+//       'Hello world',
+//     )
+//   );
+// ---> no need for any extra plugin for converting it
+//---> bit complex to write and read
